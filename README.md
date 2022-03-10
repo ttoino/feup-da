@@ -1,6 +1,6 @@
 # FEUP-DA
 
-Weekly exercises from the AED course unit at FEUP.
+Weekly exercises from the DA course unit at FEUP.
 
 Exercise descriptions provided (adapted from the given PDFs).\
 Unit tests provided.

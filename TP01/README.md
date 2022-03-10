@@ -2,10 +2,10 @@
 
 ## 1. The 3-sum problem
 
-Implement the function `sum3` below.
+Implement the function *sum3* below.
 
 ```cpp
-bool sum3( unsigned int T, unsigned int selected[3])
+bool sum3(unsigned int T, unsigned int selected[3])
 ```
 
 The function finds three positive integers whose sum is equal to *T*.
