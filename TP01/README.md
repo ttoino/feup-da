@@ -22,8 +22,8 @@ Otherwise, the function returns *false* (and the *selected* array is not initial
 
 Given any one-dimensional array **A**\[1..*n*\] of integers, the **maximum sum subarray problem** tries to find a contiguous subarray of **A**, starting with element *i* and ending with element *j*, with the largest sum:
 
-![max(sum(A[x], i, j)), with i <= i <= j <= n](https://render.githubusercontent.com/render/math?math={\max%20\left%28%20\sum_{x=i}^{j}%20A[x]%20\right%29%20\text{\,%20with%201}%20\leq%20i%20\leq%20j%20\leq%20n}#gh-light-mode-only)
-![max(sum(A[x], i, j)), with i <= i <= j <= n](https://render.githubusercontent.com/render/math?math={\color{white}%20\max%20\left%28%20\sum_{x=i}^{j}%20A[x]%20\right%29%20\text{\,%20with%201}%20\leq%20i%20\leq%20j%20\leq%20n}#gh-dark-mode-only)
+![max(sum(A[x], i, j)), with i <= i <= j <= n](https://render.githubusercontent.com/render/math?math={\displaystyle\max%20\left%28%20\sum_{x=i}^{j}%20A[x]%20\right%29%20\text{\,%20with%201}%20\leq%20i%20\leq%20j%20\leq%20n}#gh-light-mode-only)
+![max(sum(A[x], i, j)), with i <= i <= j <= n](https://render.githubusercontent.com/render/math?math={\displaystyle\color{white}%20\max%20\left%28%20\sum_{x=i}^{j}%20A[x]%20\right%29%20\text{\,%20with%201}%20\leq%20i%20\leq%20j%20\leq%20n}#gh-dark-mode-only)
 
 Implement the function *maxSubsequence* below.
 
