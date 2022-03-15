@@ -40,8 +40,6 @@ bool isCanonical(unsigned int C[], unsigned int n) {
         }
     }
 
-    // TODO...
-
     return true;
 }
 
