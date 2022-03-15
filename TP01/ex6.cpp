@@ -12,20 +12,30 @@ bool Activity::operator<(const Activity &a2) const {
 }
 
 std::vector<Activity> earliestFinishScheduling(std::vector<Activity> A) {
-    //TODO...
+    std::sort(A.begin(), A.end());
 
-    std::vector<Activity> res;
+    std::vector<Activity> res{};
+
+    unsigned int currentTime{0};
+    for (const Activity &a : A) {
+        if (a.start > currentTime) {
+            res.push_back(a);
+            currentTime = a.finish;
+        }
+    }
 
     return res;
 }
 
 /// TESTS ///
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 TEST(TP1_Ex6, activityScheduling) {
-    std::vector<Activity> A = {{10,20}, {30, 35}, {5, 15}, {10, 40}, {40, 50}};
+    std::vector<Activity> A = {{10, 20}, {30, 35}, {5, 15}, {10, 40}, {40, 50}};
     std::vector<Activity> V = earliestFinishScheduling(A);
-    EXPECT_EQ(V.size(), 3 );
-    ASSERT_THAT(earliestFinishScheduling(A),  ::testing::ElementsAre(Activity(5, 15), Activity(30, 35), Activity(40, 50)));
+    EXPECT_EQ(V.size(), 3);
+    ASSERT_THAT(earliestFinishScheduling(A),
+                ::testing::ElementsAre(Activity(5, 15), Activity(30, 35),
+                                       Activity(40, 50)));
 }
