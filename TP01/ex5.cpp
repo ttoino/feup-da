@@ -31,13 +31,9 @@ bool isCanonical(unsigned int C[], unsigned int n) {
         changeMakingBF(C, Stock.get(), n, x, usedCoinsBF.get());
         changeMakingGreedy(C, Stock.get(), n, x, usedCoinsGreedy.get());
 
-        for (unsigned int i{0}; i < n; ++i) {
-            unsigned int a = usedCoinsBF[i];
-            unsigned int b = usedCoinsGreedy[i];
-
+        for (unsigned int i{0}; i < n; ++i)
             if (usedCoinsBF[i] != usedCoinsGreedy[i])
                 return false;
-        }
     }
 
     return true;
