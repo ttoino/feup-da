@@ -3,8 +3,8 @@
 #ifndef CAL_TP2B_CLASSES_EXERCISES_H
 #define CAL_TP2B_CLASSES_EXERCISES_H
 
-#include <vector>
 #include <ostream>
+#include <vector>
 
 // Ex 1
 struct Point {
@@ -17,11 +17,11 @@ struct Point {
     double distSquare(Point &p) const; // distance squared
     bool operator==(const Point &p) const;
 };
-std::ostream& operator<<(std::ostream& os, Point &p);
+std::ostream &operator<<(std::ostream &os, Point &p);
 
 // Auxiliary class to store a solution.
 struct Result {
-    double dmin; // distance between selected points
+    double dmin;  // distance between selected points
     Point p1, p2; // selected points
     Result(double dmin2, Point p1, Point p2);
     Result();
@@ -36,7 +36,8 @@ Result nearestPoints_BF(std::vector<Point> &vp);
 Result nearestPoints_BF_SortByX(std::vector<Point> &vp);
 // Divide-and-conquer with a single thread
 Result nearestPoints_DC(std::vector<Point> &vp);
-// Divide-and-conquer with multiple threads (number of threads is set using setNumThreads).
+// Divide-and-conquer with multiple threads (number of threads is set using
+// setNumThreads).
 Result nearestPoints_DC_MT(std::vector<Point> &vp);
 
 // Pointer to function that computes nearest points
@@ -45,4 +46,4 @@ typedef Result (*NP_FUNC)(std::vector<Point> &vp);
 // Ex 2
 int maxSubsequenceDC(int A[], unsigned int n, int &i, int &j);
 
-#endif //CAL_TP2B_CLASSES_EXERCISES_H
+#endif // CAL_TP2B_CLASSES_EXERCISES_H

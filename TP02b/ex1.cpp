@@ -1,9 +1,9 @@
 #include "exercises.h"
 
-#include <limits>
-#include <thread>
 #include <algorithm>
 #include <cmath>
+#include <limits>
+#include <thread>
 
 const double MAX_DOUBLE = std::numeric_limits<double>::max();
 
@@ -18,83 +18,79 @@ Point::Point(int x, int y) {
 }
 
 double Point::distance(Point &p) const {
-    return sqrt((x-p.x) * (x-p.x)  + (y-p.y) * (y-p.y));
+    return sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
 }
 
 double Point::distSquare(Point &p) const {
-    return (x-p.x) * (x-p.x)  + (y-p.y) * (y-p.y);
+    return (x - p.x) * (x - p.x) + (y - p.y) * (y - p.y);
 }
 
-bool Point::operator==(const Point &p) const {
-    return (x == p.x && y == p.y);
-}
+bool Point::operator==(const Point &p) const { return (x == p.x && y == p.y); }
 
-std::ostream& operator<<(std::ostream& os, Point &p) {
+std::ostream &operator<<(std::ostream &os, Point &p) {
     os << "(" << p.x << "," << p.y << ")";
     return os;
 }
 
-Result::Result(double dmin, Point p1, Point p2): dmin(dmin), p1(p1), p2(p2) {
-}
+Result::Result(double dmin, Point p1, Point p2) : dmin(dmin), p1(p1), p2(p2) {}
 
-Result::Result(): Result(MAX_DOUBLE, Point(0,0), Point(0,0)) {
-}
+Result::Result() : Result(MAX_DOUBLE, Point(0, 0), Point(0, 0)) {}
 
 /**
  * Defines the number of threads to be used.
  */
 static int numThreads = 1;
-void setNumThreads(int num) {
-    numThreads = num;
-}
+void setNumThreads(int num) { numThreads = num; }
 
 // Auxiliary functions to sort vector of points by X or Y axis.
 static void sortByX(std::vector<Point> &v, int left, int right) {
-    std::sort(v.begin( ) + left, v.begin() + right + 1,
-              [](Point p, Point q){ return p.x < q.x || (p.x == q.x && p.y < q.y); });
+    std::sort(v.begin() + left, v.begin() + right + 1, [](Point p, Point q) {
+        return p.x < q.x || (p.x == q.x && p.y < q.y);
+    });
 }
 
 static void sortByY(std::vector<Point> &v, int left, int right) {
-    std::sort(v.begin( ) + left, v.begin() + right + 1,
-              [](Point p, Point q){ return p.y < q.y || (p.y == q.y && p.x < q.x); });
+    std::sort(v.begin() + left, v.begin() + right + 1, [](Point p, Point q) {
+        return p.y < q.y || (p.y == q.y && p.x < q.x);
+    });
 }
 
 Result nearestPoints_BF(std::vector<Point> &vp) {
     Result res;
-    //TODO
+    // TODO
     return res;
 }
 
 Result nearestPoints_BF_SortByX(std::vector<Point> &vp) {
     Result res;
-    sortByX(vp, 0, vp.size()-1);
-    //TODO
+    sortByX(vp, 0, vp.size() - 1);
+    // TODO
     return res;
 }
 
 Result nearestPoints_DC(std::vector<Point> &vp) {
     Result res;
-    sortByX(vp, 0, vp.size()-1);
-    //TODO
+    sortByX(vp, 0, vp.size() - 1);
+    // TODO
     return res;
 }
 
 Result nearestPoints_DC_MT(std::vector<Point> &vp) {
     Result res;
-    sortByX(vp, 0, vp.size()-1);
-    //TODO
+    sortByX(vp, 0, vp.size() - 1);
+    // TODO
     return res;
 }
 
 /// TESTS ///
-#include <gtest/gtest.h>
 #include <fstream>
-#include <time.h>
-#include <sys/timeb.h>
+#include <gtest/gtest.h>
 #include <random>
 #include <stdlib.h>
+#include <sys/timeb.h>
+#include <time.h>
 
-#define REL_PATH "../TP2b/" // relative path to the tests
+#define REL_PATH "../TP2b/points" // relative path to the tests
 
 /**
  * Auxiliary function to read points from file to vector.
@@ -109,7 +105,7 @@ void readPoints(std::string in, std::vector<Point> &vp) {
     while (!is.eof()) {
         double x, y;
         is >> x >> y;
-        Point p(x,y);
+        Point p(x, y);
         vp.push_back(p);
     }
 }
@@ -120,8 +116,8 @@ void readPoints(std::string in, std::vector<Point> &vp) {
 void shuffle(std::vector<Point> &vp, int left, int right) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(0, right - left +1);
-    for (int i = left; i < right; i++){
+    std::uniform_int_distribution<int> dis(0, right - left + 1);
+    for (int i = left; i < right; i++) {
         int k = i + dis(gen) % (right - i + 1);
         Point tmp = vp[i];
         vp[i] = vp[k];
@@ -132,8 +128,8 @@ void shuffle(std::vector<Point> &vp, int left, int right) {
 void shuffleY(std::vector<Point> &vp, int left, int right) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(0, right - left +1);
-    for (int i = left; i < right; i++){
+    std::uniform_int_distribution<int> dis(0, right - left + 1);
+    for (int i = left; i < right; i++) {
         int k = i + dis(gen) % (right - i + 1);
         double tmp = vp[i].y;
         vp[i].y = vp[k].y;
@@ -145,27 +141,27 @@ void shuffleY(std::vector<Point> &vp, int left, int right) {
 void generateRandom(int n, std::vector<Point> &vp) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(0, n-1);
+    std::uniform_int_distribution<int> dis(0, n - 1);
 
     vp.clear();
     // reference value for reference points (r, r), (r, r+1)
     int r = dis(gen);
-    vp.push_back(Point(r,r));
-    vp.push_back(Point(r,r+1));
+    vp.push_back(Point(r, r));
+    vp.push_back(Point(r, r + 1));
     for (int i = 2; i < n; i++)
         if (i < r)
             vp.push_back(Point(i, i));
         else
-            vp.push_back(Point(i+1, i+2));
-    shuffleY(vp, 2, n-1);
-    shuffle(vp, 0, n-1);
+            vp.push_back(Point(i + 1, i + 2));
+    shuffleY(vp, 2, n - 1);
+    shuffle(vp, 0, n - 1);
 }
 
 // Similar, but with constant X.
 void generateRandomConstX(int n, std::vector<Point> &vp) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(0, n-1);
+    std::uniform_int_distribution<int> dis(0, n - 1);
 
     vp.clear();
     // reference value for min dist
@@ -178,7 +174,7 @@ void generateRandomConstX(int n, std::vector<Point> &vp) {
         else
             y += 1 + dis(gen) % 100;
     }
-    shuffleY(vp, 0, n-1);
+    shuffleY(vp, 0, n - 1);
 }
 
 /**
@@ -190,7 +186,7 @@ void generateRandomConstX(int n, std::vector<Point> &vp) {
  */
 int GetMilliCount() {
     timeb tb;
-    ftime( &tb );
+    ftime(&tb);
     int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
     return nCount;
 }
@@ -202,7 +198,8 @@ int GetMilliSpan(int nTimeStart) {
     return nSpan;
 }
 
-int testNP(std::string name, std::vector<Point> &points, double dmin, NP_FUNC func, std::string alg) {
+int testNP(std::string name, std::vector<Point> &points, double dmin,
+           NP_FUNC func, std::string alg) {
     int nTimeStart = GetMilliCount();
     Result res = (func)(points);
     int nTimeElapsed = GetMilliSpan(nTimeStart);
@@ -219,21 +216,23 @@ int testNP(std::string name, std::vector<Point> &points, double dmin, NP_FUNC fu
  * Prints result and performance information.
  */
 int testNPFile(std::string in, double dmin, NP_FUNC func, std::string alg) {
-    std::vector<Point> pontos;
-    readPoints(in, pontos);
-    return testNP(in, pontos, dmin, func, alg);
+    std::vector<Point> points;
+    readPoints(in, points);
+    return testNP(in, points, dmin, func, alg);
 }
 
-int testNPRand(int size, std::string name, double dmin, NP_FUNC func, std::string alg) {
-    std::vector<Point> pontos;
-    generateRandom(size, pontos);
-    return testNP(name, pontos, dmin, func, alg);
+int testNPRand(int size, std::string name, double dmin, NP_FUNC func,
+               std::string alg) {
+    std::vector<Point> points;
+    generateRandom(size, points);
+    return testNP(name, points, dmin, func, alg);
 }
 
-int testNPRandConstX(int size, std::string name, double dmin, NP_FUNC func, std::string alg) {
-    std::vector<Point> pontos;
-    generateRandomConstX(size, pontos);
-    return testNP(name, pontos, dmin, func, alg);
+int testNPRandConstX(int size, std::string name, double dmin, NP_FUNC func,
+                     std::string alg) {
+    std::vector<Point> points;
+    generateRandomConstX(size, points);
+    return testNP(name, points, dmin, func, alg);
 }
 
 /**
@@ -241,38 +240,38 @@ int testNPRandConstX(int size, std::string name, double dmin, NP_FUNC func, std:
  */
 
 void testNearestPoints(NP_FUNC func, std::string alg) {
-    std::cout << "algorithm; data set; time elapsed (ms); distance; point1; point2" << std::endl;
+    std::cout
+        << "algorithm; data set; time elapsed (ms); distance; point1; point2"
+        << std::endl;
     int maxTime = 10000;
-    if ( testNPFile("Pontos8", 11841.3, func, alg) > maxTime)
+    if (testNPFile("8", 11841.3, func, alg) > maxTime)
         return;
-    if ( testNPFile("Pontos64", 556.066, func, alg) > maxTime)
+    if (testNPFile("64", 556.066, func, alg) > maxTime)
         return;
-    if (testNPFile("Pontos1k", 100.603, func, alg) > maxTime)
+    if (testNPFile("1k", 100.603, func, alg) > maxTime)
         return;
-    if (testNPFile("Pontos16k", 13.0384, func, alg) > maxTime)
+    if (testNPFile("16k", 13.0384, func, alg) > maxTime)
+        return;
+    if (testNPFile("32k", 1.0, func, alg) > maxTime)
+        return;
+    if (testNPFile("64k", 1.0, func, alg) > maxTime)
+        return;
+    if (testNPFile("128k", 0.0, func, alg) > maxTime)
         return;
     /*
     // Uncomment to use more tests
-    if (testNPFile("Pontos32k", 1.0, func, alg) > maxTime)
+    if (testNPRand(0x40000, "256k", 1.0, func, alg) > maxTime)
         return;
-    if (testNPFile("Pontos64k", 1.0, func, alg) > maxTime)
+    if (testNPRand(0x80000, "512k", 1.0, func, alg) > maxTime)
         return;
-    if (testNPFile("Pontos128k", 0.0, func, alg) > maxTime)
+    if (testNPRand(0x100000, "1M", 1.0, func, alg) > maxTime)
         return;
-    if (testNPRand(0x40000, "Pontos256k", 1.0, func, alg) > maxTime)
-        return;
-    if (testNPRand(0x80000, "Pontos512k",  1.0, func, alg) > maxTime)
-        return;
-    if ( testNPRand(0x100000, "Pontos1M",  1.0, func, alg) > maxTime)
-        return;
-    if ( testNPRand(0x200000, "Pontos2M",  1.0, func, alg) > maxTime)
+    if (testNPRand(0x200000, "2M", 1.0, func, alg) > maxTime)
         return;
     */
 }
 
-TEST(TP3_Ex1, testNP_BF) {
-    testNearestPoints(nearestPoints_BF, "Brute force");
-}
+TEST(TP3_Ex1, testNP_BF) { testNearestPoints(nearestPoints_BF, "Brute force"); }
 
 TEST(TP3_Ex1, testNP_BF_SortedX) {
     testNearestPoints(nearestPoints_BF_SortByX, "Brute force, sorted by x");
