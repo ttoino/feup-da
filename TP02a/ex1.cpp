@@ -18,7 +18,30 @@ void Labyrinth::print() const {
 }
 
 bool Labyrinth::findGoal(int x, int y) {
-    // TODO
+    initializeVisited();
+    return findGoalRecursive(x, y);
+}
+
+bool Labyrinth::findGoalRecursive(int x, int y) {
+    std::cout << x << '\t' << y << std::endl;
+
+    if (x < 0 || y < 0 || x >= 10 || y >= 10 || visited[x][y] ||
+        labyrinth[x][y] == 0)
+        return false;
+    if (labyrinth[x][y] == 2)
+        return true;
+
+    visited[x][y] = true;
+
+    if (findGoalRecursive(x + 1, y))
+        return true;
+    if (findGoalRecursive(x - 1, y))
+        return true;
+    if (findGoalRecursive(x, y + 1))
+        return true;
+    if (findGoalRecursive(x, y - 1))
+        return true;
+
     return false;
 }
 

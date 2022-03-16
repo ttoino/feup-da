@@ -20,7 +20,7 @@ private:
     int labyrinth[10][10];
     bool visited[10][10];
     void initializeVisited();
-    // TODO: Add other methods if needed
+    bool findGoalRecursive(int x, int y);
 };
 
 // Ex 2
