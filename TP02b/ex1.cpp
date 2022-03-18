@@ -17,11 +17,11 @@ Point::Point(int x, int y) {
     this->y = y;
 }
 
-double Point::distance(Point &p) const {
+double Point::distance(const Point &p) const {
     return sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
 }
 
-double Point::distSquare(Point &p) const {
+double Point::distSquare(const Point &p) const {
     return (x - p.x) * (x - p.x) + (y - p.y) * (y - p.y);
 }
 
@@ -43,43 +43,127 @@ static int numThreads = 1;
 void setNumThreads(int num) { numThreads = num; }
 
 // Auxiliary functions to sort vector of points by X or Y axis.
-static void sortByX(std::vector<Point> &v, int left, int right) {
-    std::sort(v.begin() + left, v.begin() + right + 1, [](Point p, Point q) {
+static void sortByX(std::vector<Point> &v) {
+    std::sort(v.begin(), v.end(), [](Point p, Point q) {
         return p.x < q.x || (p.x == q.x && p.y < q.y);
     });
 }
 
-static void sortByY(std::vector<Point> &v, int left, int right) {
-    std::sort(v.begin() + left, v.begin() + right + 1, [](Point p, Point q) {
+static void sortByY(std::vector<Point> &v) {
+    std::sort(v.begin(), v.end(), [](Point p, Point q) {
         return p.y < q.y || (p.y == q.y && p.x < q.x);
     });
 }
 
-Result nearestPoints_BF(std::vector<Point> &vp) {
+Result nearestPoints_BF(std::vector<Point> &p) {
     Result res;
-    // TODO
+    double d;
+
+    for (auto i{p.begin()}, end{p.end()}; i < end; ++i)
+        for (auto j{i + 1}; j < end; ++j)
+            if ((d = i->distance(*j)) < res.dmin)
+                res = {d, *i, *j};
+
     return res;
 }
 
-Result nearestPoints_BF_SortByX(std::vector<Point> &vp) {
+Result _nearestPoints_BF_SortedByX(std::vector<Point> &p) {
     Result res;
-    sortByX(vp, 0, vp.size() - 1);
-    // TODO
+    double d;
+
+    for (auto i{p.begin()}, end{p.end()}; i < end; ++i) {
+        for (auto j{i + 1}; j < end; ++j) {
+            if (res.dmin < j->x - i->x)
+                break;
+
+            if ((d = i->distance(*j)) < res.dmin)
+                res = {d, *i, *j};
+        }
+    }
+
     return res;
 }
 
-Result nearestPoints_DC(std::vector<Point> &vp) {
-    Result res;
-    sortByX(vp, 0, vp.size() - 1);
-    // TODO
-    return res;
+Result nearestPoints_BF_SortByX(std::vector<Point> &p) {
+    sortByX(p);
+    return _nearestPoints_BF_SortedByX(p);
 }
 
-Result nearestPoints_DC_MT(std::vector<Point> &vp) {
-    Result res;
-    sortByX(vp, 0, vp.size() - 1);
-    // TODO
-    return res;
+Result _nearestPoints_DC(std::vector<Point> &p) {
+    if (p.size() <= 3)
+        return _nearestPoints_BF_SortedByX(p);
+
+    std::vector<Point> pl{p.begin(), p.begin() + p.size() / 2};
+    std::vector<Point> pr{p.begin() + p.size() / 2, p.end()};
+
+    Result dl{_nearestPoints_DC(pl)};
+    Result dr{_nearestPoints_DC(pr)};
+    double delta = std::min(dl.dmin, dr.dmin);
+    double min_x = (pl.end() - 1)->x - delta;
+    double max_x = pr.begin()->x + delta;
+    double d;
+    Result dc;
+
+    for (auto i{pl.rbegin()}, endl{pl.rend()}; i->x > min_x && i < endl; ++i) {
+        for (auto j{pr.begin()}, endr{pr.end()}; j->x < max_x && j < endr;
+             ++j) {
+            if (dc.dmin < j->x - i->x)
+                break;
+
+            if ((d = i->distance(*j)) < dc.dmin)
+                dc = {d, *i, *j};
+        }
+    }
+
+    return dc.dmin < delta ? dc : (dl.dmin < dr.dmin ? dl : dr);
+}
+
+Result nearestPoints_DC(std::vector<Point> &p) {
+    sortByX(p);
+    return _nearestPoints_DC(p);
+}
+
+Result _nearestPoints_DC_MT(std::vector<Point> &p, int threads) {
+    if (p.size() <= 3)
+        return nearestPoints_BF(p);
+
+    std::vector<Point> pl{p.begin(), p.begin() + p.size() / 2};
+    std::vector<Point> pr{p.begin() + p.size() / 2, p.end()};
+
+    Result dl, dr;
+
+    if (threads > 1) {
+        std::thread t([&]() { dl = _nearestPoints_DC_MT(pl, threads / 2); });
+        dr = _nearestPoints_DC_MT(pr, threads / 2);
+        t.join();
+    } else {
+        dl = nearestPoints_DC(pl);
+        dr = nearestPoints_DC(pr);
+    }
+
+    double delta = std::min(dl.dmin, dr.dmin);
+    double min_x = (pl.end() - 1)->x - delta;
+    double max_x = pr.begin()->x + delta;
+    double d;
+    Result dc;
+
+    for (auto i{pl.rbegin()}, endl{pl.rend()}; i->x > min_x && i < endl; ++i) {
+        for (auto j{pr.begin()}, endr{pr.end()}; j->x < max_x && j < endr;
+             ++j) {
+            if (dc.dmin < j->x - i->x)
+                break;
+
+            if ((d = i->distance(*j)) < dc.dmin)
+                dc = {d, *i, *j};
+        }
+    }
+
+    return dc.dmin < delta ? dc : (dl.dmin < dr.dmin ? dl : dr);
+}
+
+Result nearestPoints_DC_MT(std::vector<Point> &p) {
+    sortByX(p);
+    return _nearestPoints_DC_MT(p, numThreads);
 }
 
 /// TESTS ///
@@ -90,7 +174,7 @@ Result nearestPoints_DC_MT(std::vector<Point> &vp) {
 #include <sys/timeb.h>
 #include <time.h>
 
-#define REL_PATH "../TP2b/points" // relative path to the tests
+#define REL_PATH "../TP02b/points/" // relative path to the tests
 
 /**
  * Auxiliary function to read points from file to vector.
@@ -271,7 +355,8 @@ void testNearestPoints(NP_FUNC func, std::string alg) {
     */
 }
 
-TEST(TP3_Ex1, testNP_BF) { testNearestPoints(nearestPoints_BF, "Brute force"); }
+// TEST(TP3_Ex1, testNP_BF) { testNearestPoints(nearestPoints_BF, "Brute
+// force"); }
 
 TEST(TP3_Ex1, testNP_BF_SortedX) {
     testNearestPoints(nearestPoints_BF_SortByX, "Brute force, sorted by x");

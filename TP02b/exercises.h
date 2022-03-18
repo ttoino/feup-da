@@ -13,8 +13,8 @@ struct Point {
 
     Point(double x, double y);
     Point(int x, int y);
-    double distance(Point &p) const;
-    double distSquare(Point &p) const; // distance squared
+    double distance(const Point &p) const;
+    double distSquare(const Point &p) const; // distance squared
     bool operator==(const Point &p) const;
 };
 std::ostream &operator<<(std::ostream &os, Point &p);
