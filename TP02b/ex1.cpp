@@ -89,24 +89,35 @@ Result nearestPoints_BF_SortByX(std::vector<Point> &p) {
     return _nearestPoints_BF_SortedByX(p);
 }
 
-Result _nearestPoints_DC(std::vector<Point> &p) {
-    if (p.size() <= 3)
-        return _nearestPoints_BF_SortedByX(p);
+Result _npDC(std::vector<Point> &p, int start, int end, int threads = 1) {
+    if (start >= end)
+        return {};
+    if (start == end - 1)
+        return {p[start].distance(p[end]), p[start], p[end]};
 
-    std::vector<Point> pl{p.begin(), p.begin() + p.size() / 2};
-    std::vector<Point> pr{p.begin() + p.size() / 2, p.end()};
+    int center = (start + end) / 2;
 
-    Result dl{_nearestPoints_DC(pl)};
-    Result dr{_nearestPoints_DC(pr)};
+    Result dl, dr;
+
+    if (threads > 1) {
+        std::thread t([&]() { dl = _npDC(p, start, center, threads / 2); });
+        dr = _npDC(p, center + 1, end, threads / 2);
+        t.join();
+    } else {
+        dl = _npDC(p, start, center);
+        dr = _npDC(p, center + 1, end);
+    }
+
     double delta = std::min(dl.dmin, dr.dmin);
-    double min_x = (pl.end() - 1)->x - delta;
-    double max_x = pr.begin()->x + delta;
+    double min_x = p[center].x - delta;
+    double max_x = p[center + 1].x + delta;
     double d;
     Result dc;
 
-    for (auto i{pl.rbegin()}, endl{pl.rend()}; i->x > min_x && i < endl; ++i) {
-        for (auto j{pr.begin()}, endr{pr.end()}; j->x < max_x && j < endr;
-             ++j) {
+    for (auto i{p.begin() + center}, endl{p.begin() + start - 1};
+         i->x > min_x && i > endl; --i) {
+        for (auto j{p.begin() + center + 1}, endr{p.begin() + end + 1};
+             j->x < max_x && j < endr; ++j) {
             if (dc.dmin < j->x - i->x)
                 break;
 
@@ -120,50 +131,12 @@ Result _nearestPoints_DC(std::vector<Point> &p) {
 
 Result nearestPoints_DC(std::vector<Point> &p) {
     sortByX(p);
-    return _nearestPoints_DC(p);
-}
-
-Result _nearestPoints_DC_MT(std::vector<Point> &p, int threads) {
-    if (p.size() <= 3)
-        return nearestPoints_BF(p);
-
-    std::vector<Point> pl{p.begin(), p.begin() + p.size() / 2};
-    std::vector<Point> pr{p.begin() + p.size() / 2, p.end()};
-
-    Result dl, dr;
-
-    if (threads > 1) {
-        std::thread t([&]() { dl = _nearestPoints_DC_MT(pl, threads / 2); });
-        dr = _nearestPoints_DC_MT(pr, threads / 2);
-        t.join();
-    } else {
-        dl = nearestPoints_DC(pl);
-        dr = nearestPoints_DC(pr);
-    }
-
-    double delta = std::min(dl.dmin, dr.dmin);
-    double min_x = (pl.end() - 1)->x - delta;
-    double max_x = pr.begin()->x + delta;
-    double d;
-    Result dc;
-
-    for (auto i{pl.rbegin()}, endl{pl.rend()}; i->x > min_x && i < endl; ++i) {
-        for (auto j{pr.begin()}, endr{pr.end()}; j->x < max_x && j < endr;
-             ++j) {
-            if (dc.dmin < j->x - i->x)
-                break;
-
-            if ((d = i->distance(*j)) < dc.dmin)
-                dc = {d, *i, *j};
-        }
-    }
-
-    return dc.dmin < delta ? dc : (dl.dmin < dr.dmin ? dl : dr);
+    return _npDC(p, 0, p.size() - 1);
 }
 
 Result nearestPoints_DC_MT(std::vector<Point> &p) {
     sortByX(p);
-    return _nearestPoints_DC_MT(p, numThreads);
+    return _npDC(p, 0, p.size() - 1, numThreads);
 }
 
 /// TESTS ///
