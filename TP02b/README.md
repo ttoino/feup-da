@@ -41,7 +41,9 @@ However, that algorithm would have complexity O(N²).
 With a divide and conquer algorithm like the one described below, one can guarantee O(N log N) complexity.
 
 <p align="center">
-    <img src="images/figure1.png" alt="A small set P of points"><br>
+    <img src="images/figure1-light.png#gh-light-mode-only" alt="A small set P of points">
+    <img src="images/figure1-dark.png#gh-dark-mode-only" alt="A small set P of points">
+    <br>
     Figure 1 – A small set <em>P</em> of points
 </p>
 
@@ -51,7 +53,9 @@ Given this division, either both points of the closest pair are in <em>P<sub>L</
 We can call the distances between them <em>d<sub>L</sub></em>, <em>d<sub>R</sub></em> and <em>d<sub>C</sub></em>, as shown in figure 2.
 
 <p align="center">
-    <img src="images/figure2.png" alt="Set P divided into PL and PR, with the minimum distances shown."><br>
+    <img src="images/figure2-light.png#gh-light-mode-only" alt="Set P divided into PL and PR, with the minimum distances shown.">
+    <img src="images/figure2-dark.png#gh-dark-mode-only" alt="Set P divided into PL and PR, with the minimum distances shown.">
+<br>
     Figure 2 – Set <em>P</em> divided into <em>P<sub>L</sub></em> and <em>P<sub>R</sub></em>, with the minimum distances shown
 </p>
 
@@ -65,7 +69,9 @@ With that in mind, it can be said that the two points which define <em>d<sub>C</
 We will name this area the **strip**.
 
 <p align="center">
-    <img src="images/figure3.png" alt="Two bands containing all of the points considered for the strip dC"><br>
+    <img src="images/figure3-light.png#gh-light-mode-only" alt="Two bands containing all of the points considered for the strip dC">
+    <img src="images/figure3-dark.png#gh-dark-mode-only" alt="Two bands containing all of the points considered for the strip dC">
+<br>
     Figure 3 – Two bands containing all of the points considered for the strip <em>d<sub>C</sub></em>
 </p>
 
@@ -75,7 +81,9 @@ In that case, the brute force algorithm can be used in this strip in time O(N).
 The pseudo-code for this strategy is shown in figure 4.
 
 <p align="center">
-    <img src="images/figure4.png" alt="Brute force algorithm to compute min(δ, dC)"><br>
+    <img src="images/figure4-light.png#gh-light-mode-only" alt="Brute force algorithm to compute min(δ, dC)">
+    <img src="images/figure4-dark.png#gh-dark-mode-only" alt="Brute force algorithm to compute min(δ, dC)">
+<br>
     Figure 4 – Brute force algorithm to compute min(<em>δ</em>, <em>d<sub>C</sub></em>)
 </p>
 
@@ -87,7 +95,9 @@ If the *y* coordinates of points <em>p<sub>i</sub></em> and <em>p<sub>j</sub></e
 This simple modification is implemented in the algorithm shown in figure 5.
 
 <p align="center">
-    <img src="images/figure5.png" alt="Improved computation of min(δ, d C)"><br>
+    <img src="images/figure5-light.png#gh-light-mode-only" alt="Improved computation of min(δ, d C)">
+    <img src="images/figure5-dark.png#gh-dark-mode-only" alt="Improved computation of min(δ, d C)">
+<br>
     Figure 5 – Improved computation of min(<em>δ</em>, <em>d<sub>C</sub></em>)
 </p>
 
@@ -95,7 +105,9 @@ This simple additional test has a very significative effect on the algorithm’s
 Figure 6 shows, for example, that for point <em>p<sub>3</sub></em>, only points <em>p<sub>4</sub></em> and <em>p<sub>5</sub></em> are less than *δ* distance away on the vertical axis.
 
 <p align="center">
-    <img src="images/figure6.png" alt="Only points p4 e p5 are considered in the second for loop"><br>
+    <img src="images/figure6-light.png#gh-light-mode-only" alt="Only points p4 e p5 are considered in the second for loop">
+    <img src="images/figure6-dark.png#gh-dark-mode-only" alt="Only points p4 e p5 are considered in the second for loop">
+<br>
     Figure 6 – Only points <em>p<sub>4</sub></em> e <em>p<sub>5</sub></em> are considered in the second <em>for</em> loop
 </p>
 
@@ -109,7 +121,9 @@ Even in points <em>p<sub>L2</sub></em> and <em>p<sub>R1</sub></em> have the same
 In this analysis, the important thing to notice is that the number of points in the *λ*×*2λ* rectangle is O(1).
 
 <p align="center">
-    <img src="images/figure7.png" alt="There at most eight points in the rectangle, each sharing two coordinates with other points."><br>
+    <img src="images/figure7-light.png#gh-light-mode-only" alt="There at most eight points in the rectangle, each sharing two coordinates with other points.">
+    <img src="images/figure7-dark.png#gh-dark-mode-only" alt="There at most eight points in the rectangle, each sharing two coordinates with other points.">
+<br>
     Figure 7 - There at most eight points in the rectangle, each sharing two coordinates with other points
 </p>
 
