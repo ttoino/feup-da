@@ -61,9 +61,9 @@ We can call the distances between them <em>d<sub>L</sub></em>, <em>d<sub>R</sub>
 
 Computing <em>d<sub>L</sub></em> and <em>d<sub>R</sub></em> can be done recursively.
 The problem is then to compute <em>d<sub>C</sub></em>.
-In order to guarantee a O(N log N) complexity algorithm (needed to sort the values), it must be possible to compute dC in O(N).
+In order to guarantee a O(N log N) complexity algorithm (needed to sort the values), it must be possible to compute <em>d<sub>C</sub></em> in O(N).
 
-Consider *δ* = (<em>d<sub>L</sub></em>, <em>d<sub>R</sub></em>).
+Consider *δ* = min(<em>d<sub>L</sub></em>, <em>d<sub>R</sub></em>).
 One only has to compute <em>d<sub>C</sub></em> if it is smaller than *δ*.
 With that in mind, it can be said that the two points which define <em>d<sub>C</sub></em> should be less than *δ* distance from the dividing line.
 We will name this area the **strip**.
@@ -91,7 +91,7 @@ In the worst case scenario, every point can be in the strip.
 In this case, the brute force strategy does not run in linear time.
 It is necessary to look closely at the problem in order to improve the algorithm: the *y* coordinates of the two points which define <em>d<sub>C</sub></em> should differ, at most, *δ*; otherwise, <em>d<sub>C</sub></em> \> *δ*.
 Suppose the points in the strip are sorted by their *y* coordinate.
-If the *y* coordinates of points <em>p<sub>i</sub></em> and <em>p<sub>j</sub></em> differ more than *δ*, the algorithm skips to point <em>p<sub>i</sub></em>+1.
+If the *y* coordinates of points <em>p<sub>i</sub></em> and <em>p<sub>j</sub></em> differ more than *δ*, the algorithm skips to point <em>p<sub>i+1</sub></em>.
 This simple modification is implemented in the algorithm shown in figure 5.
 
 <p align="center">
@@ -111,7 +111,7 @@ Figure 6 shows, for example, that for point <em>p<sub>3</sub></em>, only points 
     Figure 6 – Only points <em>p<sub>4</sub></em> e <em>p<sub>5</sub></em> are considered in the second <em>for</em> loop
 </p>
 
-In the worst case scenario, for any point pi at most seven points <em>p<sub>j</sub></em> will be considered.
+In the worst case scenario, for any point <em>p<sub>i</sub></em> at most seven points <em>p<sub>j</sub></em> will be considered.
 The reason for this is simple to understand: these points must be contained in a *δ*×*δ* square on the left half of the strip or a *δ*×*δ* square on the right half of the strip.
 On the other hand, all points in each *δ*×*δ* square are at least *δ* distance from each other.
 Worst case scenario, each square contains four points, one in each corner.
@@ -124,7 +124,7 @@ In this analysis, the important thing to notice is that the number of points in 
     <img src="images/figure7-light.png#gh-light-mode-only" alt="There at most eight points in the rectangle, each sharing two coordinates with other points.">
     <img src="images/figure7-dark.png#gh-dark-mode-only" alt="There at most eight points in the rectangle, each sharing two coordinates with other points.">
 <br>
-    Figure 7 - There at most eight points in the rectangle, each sharing two coordinates with other points
+    Figure 7 - There are at most eight points in the rectangle, each sharing two coordinates with other points
 </p>
 
 Given that there are at most seven points to be considered for each <em>p<sub>i</sub></em>, the time needed to compute a <em>d<sub>C</sub></em> better than *δ* is O(N).
@@ -146,7 +146,7 @@ It is easy to verify that both <em>Q<sub>L</sub></em> and <em>Q<sub>R</sub></em>
 Once the recursive call returns, all points in *Q* whose *x* coordinate does not belong within the strip are removed.
 That way, *Q* contains all of the points which are within the strip, already sorted by *y*.
 
-This strategy guarantees that the overall algorithm has complexity O(N log N), because the only extra processing which is done is done with complexity O(N)
+This strategy guarantees that the overall algorithm has complexity O(N log N), because the only extra processing which is done with complexity O(N)
 
 ## 2. The maximum subarray problem
 
