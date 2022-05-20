@@ -81,14 +81,19 @@ Subarray of size 5 (*m* = 5): \[4, 7, 2, 8, 1\], where *s* = 22, *i* = 0
 
 The number of ways of dividing a set of *n* elements into *k* non-empty disjoint subsets (1 ≤ *k* ≤ *n*) is given by the Stirling number of the Second Kind, *S(n,k)*, which can be calculated with the recurrence relation formula:
 
-![S(n,k) = S(n-1,k-1) + k S(n-1,k), if 1 < k < n; S(n,k) = 1, if k=1 or k=n](https://render.githubusercontent.com/render/math?math={\displaystyle%20S%20\left%28%20n,%20k%20\right%29%20=%20\begin{cases}%20S%20\left%28%20n%20-%201,%20k%20-%201%20\right%29%20%2B%20k%20\cdot%20S%20\left%28%20n-1,%20k%20\right%29%20%26%201%20%3C%20k%20%3C%20n%20\\\\%201%20%26%20k%20=%201%20\lor%20k%20=%20n%20\end{cases}%20}#gh-light-mode-only)
-![S(n,k) = S(n-1,k-1) + k S(n-1,k), if 1 < k < n; S(n,k) = 1, if k=1 or k=n](https://render.githubusercontent.com/render/math?math={\color{white}\displaystyle%20S%20\left%28%20n,%20k%20\right%29%20=%20\begin{cases}%20S%20\left%28%20n%20-%201,%20k%20-%201%20\right%29%20%2B%20k%20\cdot%20S%20\left%28%20n-1,%20k%20\right%29%20%26%201%20%3C%20k%20%3C%20n%20\\\\%201%20%26%20k%20=%201%20\lor%20k%20=%20n%20\end{cases}%20}#gh-dark-mode-only)
+$$
+S \left( n, k \right) = \begin{cases}
+S \left( n - 1, k - 1 \right) + k \cdot S \left( n-1, k \right) & 1 < k < n \\
+1 & k = 1 \lor k = n
+\end{cases}
+$$
 
 On the other hand, the total number of ways of dividing a set of n elements _(n ≥ 0)_ in non-empty disjoint
 subsets is given by the nth Bell number, denoted B(n), which can be calculated with the formula:
 
-![B(n) = sum(S(n, k), k = 1 ~ n)](https://render.githubusercontent.com/render/math?math={\displaystyle%20B%20\left%28%20n%20\right%29%20=%20\sum_{k=1}^n%20S%20\left%28%20n,%20k%20\right%29%20}#gh-light-mode-only)
-![B(n) = sum(S(n, k), k = 1 ~ n)](https://render.githubusercontent.com/render/math?math={\color{white}\displaystyle%20B%20\left%28%20n%20\right%29%20=%20\sum_{k=1}^n%20S%20\left%28%20n,%20k%20\right%29%20}#gh-dark-mode-only)
+$$
+B \left( n \right) = \sum_{k=1}^n S \left( n, k \right)
+$$
 
 For example, the set {a, b, c} may be divided 5 different ways:
 
@@ -116,8 +121,10 @@ Then, on the third TP class, we solved the problem with a divide-and-conquer sol
 
 Given any one-dimensional array **A**\[1..*n*\] of integers, the **maximum sum subarray problem** tries to find a contiguous subarray of **A**, starting with element *i* and ending with element *j*, with the largest sum:
 
-![max(sum(A[x], i, j)), with i <= i <= j <= n](https://render.githubusercontent.com/render/math?math={\displaystyle\max%20\left%28%20\sum_{x=i}^{j}%20A\left[x\right]%20\right%29%20\text{\,%20with%201}%20\leq%20i%20\leq%20j%20\leq%20n}#gh-light-mode-only)
-![max(sum(A[x], i, j)), with i <= i <= j <= n](https://render.githubusercontent.com/render/math?math={\displaystyle\color{white}%20\max%20\left%28%20\sum_{x=i}^{j}%20A\left[x\right]%20\right%29%20\text{\,%20with%201}%20\leq%20i%20\leq%20j%20\leq%20n}#gh-dark-mode-only).
+$$
+\max \left( \sum_{x=i}^{j} A\left[x\right] \right)
+\text{\, with 1} \leq i \leq j \leq n
+$$
 
 Implement the function *maxSubsequence* below.
 

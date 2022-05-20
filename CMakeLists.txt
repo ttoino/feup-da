@@ -11,7 +11,7 @@ file(GLOB TP_FOLDERS CONFIGURE_DEPENDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "TP*
 
 foreach(tp_folder ${TP_FOLDERS})
     # Add the source files of each TP class
-    file(GLOB tp_files CONFIGURE_DEPENDS "${tp_folder}/*.cpp")
+    file(GLOB tp_files CONFIGURE_DEPENDS "${tp_folder}/**.cpp")
 
     add_executable(${tp_folder} lib/main.cpp ${tp_files})
 

@@ -5,8 +5,12 @@
 Suppose *P* is a list of points on a plane.
 If *p1* = (*x1*, *y1*) and *p2* = (*x2*, *y2*), the Euclidean distance between *p1* and *p2* is given by:
 
-![\[(x1 - x2)^2 + (y1 - y2)^2\]^(1/2)](https://render.githubusercontent.com/render/math?math={\displaystyle%20\left[%20\left%28%20x_1%20-%20x_2%20\right%29^2%20%2B%20\left%28%20y_1%20-%20y_2%20\right%29^2%20\right]^\frac{1}{2}%20}#gh-light-mode-only)
-![\[(x1 - x2)^2 + (y1 - y2)^2\]^(1/2)](https://render.githubusercontent.com/render/math?math={\displaystyle\color{white}%20\left[%20\left%28%20x_1%20-%20x_2%20\right%29^2%20%2B%20\left%28%20y_1%20-%20y_2%20\right%29^2%20\right]^\frac{1}{2}%20}#gh-dark-mode-only)
+$$
+\left[
+    \left( x_1 - x_2 \right)^2 +
+    \left( y_1 - y_2 \right)^2
+\right]^\frac{1}{2}
+$$
 
 Along with the **.h** and **.cpp** files, you have been given data files with a (power of 2) number of random points.
 In the case where there are two points with the same coordinates, those are the closest points, with distance 0 between them.
@@ -29,8 +33,12 @@ O(N log² N).
 Suppose *P* is a list of points on a plane.
 If *p1* = (*x1*, *y1*) and *p2* = (*x2*, *y2*), the Euclidean distance between *p1* and *p2* is given by:
 
-![\[(x1 - x2)^2 + (y1 - y2)^2\]^(1/2)](https://render.githubusercontent.com/render/math?math={\displaystyle%20\left[%20\left%28%20x_1%20-%20x_2%20\right%29^2%20%2B%20\left%28%20y_1%20-%20y_2%20\right%29^2%20\right]^\frac{1}{2}%20}#gh-light-mode-only)
-![\[(x1 - x2)^2 + (y1 - y2)^2\]^(1/2)](https://render.githubusercontent.com/render/math?math={\displaystyle\color{white}%20\left[%20\left%28%20x_1%20-%20x_2%20\right%29^2%20%2B%20\left%28%20y_1%20-%20y_2%20\right%29^2%20\right]^\frac{1}{2}%20}#gh-dark-mode-only)
+$$
+\left[
+    \left( x_1 - x_2 \right)^2 +
+    \left( y_1 - y_2 \right)^2
+\right]^\frac{1}{2}
+$$
 
 The objective is to find the two closest points.
 If there are two points with the same coordinates, those are the two closest, with distance 0.
