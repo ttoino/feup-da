@@ -21,6 +21,7 @@ This will generate a bunch of binaries in the `build` directory. One for each di
 
 * **Name**: Desenho de Algoritmos (Algorithm Design)
 * **Date**: Year 2, Semester 2, 2021/22
+* **See also**: [feup-da-proj1](https://github.com/ttoino/feup-da-proj1), [feup-da-proj2](https://github.com/ttoino/feup-da-proj2)
 * [**More info**](https://sigarra.up.pt/feup/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=484424)
 
 ## Disclaimer
