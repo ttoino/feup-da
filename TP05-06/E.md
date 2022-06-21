@@ -15,7 +15,7 @@ Tendo em conta o modelo arco-atividade, considere como habitual que:
 - Cada atividade é identificada por um arco $(i, j)$ no grafo, com uma duração
 associada $d_{ij}$.
 - A atividade $(i, j)$ inicia o mais cedo possível, isto é, logo que todas as atividades que têm fim no nó $i$ estiverem concluídas.
-  Se começar no instante $x$, decorrerá no intervalo $\left[x, x + d_{ij}\right]$, ficando concluída no instante $x, x + d_{ij}$.
+  Se começar no instante $x$, decorrerá no intervalo $\left[x, x + d_{ij}\right]$, ficando concluída no instante $x + d_{ij}$.
 
 ## Input
 
